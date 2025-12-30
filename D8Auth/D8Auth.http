@@ -1,0 +1,6 @@
+@D8Auth_HostAddress = http://localhost:5090
+
+GET {{D8Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
