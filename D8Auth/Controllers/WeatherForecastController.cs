@@ -1,10 +1,12 @@
+using D8Auth.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace D8Auth.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
@@ -30,6 +32,27 @@ namespace D8Auth.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("admin-only")]
+        [Authorize(Roles = Constants.Roles.Admin)]
+        public async Task<IActionResult> AdminOnly()
+        {
+            return Ok (new { Message = "Hello, Admin! You have access to this endpoint." });
+        }
+
+        [HttpPost("manager-or-admin")]
+        [Authorize(Roles = "Admin,Manager")]
+        public async Task<IActionResult> ManagerOrAdmin()
+        {
+            var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value);
+
+            return Ok(new
+            {
+                Message = "Welcom Manager/Admin!",
+                Roles = roles
+            });
         }
     }
 }

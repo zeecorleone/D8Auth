@@ -6,4 +6,5 @@ public class UserRegistrationRequest
     public required string Password { get; set; }
     public DateOnly DateOfBirth { get; set; }
     public string? Department { get; set; }
+    public List<string> Roles { get; set; } = new();
 }

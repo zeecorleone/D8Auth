@@ -1,4 +1,5 @@
 using D8Auth.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
@@ -32,7 +33,9 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options => {
     //options.SignIn.RequireConfirmedAccount = false;
     //options.Password.RequireDigit = false;
 
-}).AddEntityFrameworkStores<DataContext>();
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();
 
